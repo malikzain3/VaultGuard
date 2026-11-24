@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="VaultGuard — a minimal, encrypted password vault.">
+  <title><%= title %> · VaultGuard</title>
+  <link rel="icon" type="image/png" href="/vaultfavicon.png">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <nav class="navbar" aria-label="Main navigation">
+      <a class="brand" href="/" aria-label="VaultGuard home">
+        <img src="/vaultlogo.png" alt="VaultGuard" class="brand-logo">
+      </a>
+      <div class="nav-actions">
+        <% if (typeof currentUser !== 'undefined' && currentUser) { %>
+          <span class="user-pill">
+            <svg class="user-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+            </svg>
+            <%= currentUser.name %>
+          </span>
+        <% } else { %>
+          <%
+            /* Show the opposite action to the current auth mode so the navbar
+               never duplicates a button that already exists on the page. */
+            const _navMode = (typeof activeMode !== 'undefined') ? activeMode : null;
+          %>
+          <% if (_navMode === 'signup') { %>
+            <a class="btn btn-nav-secondary" href="/auth?mode=signin">Sign in</a>
+          <% } else if (_navMode === 'signin') { %>
+            <a class="btn btn-nav-secondary" href="/auth?mode=signup">Create account</a>
+          <% } else { %>
+            <a class="btn btn-nav-secondary" href="/auth?mode=signup">Create account</a>
+          <% } %>
+        <% } %>
+      </div>
+    </nav>
+  </header>
+  <main id="main" class="page">
